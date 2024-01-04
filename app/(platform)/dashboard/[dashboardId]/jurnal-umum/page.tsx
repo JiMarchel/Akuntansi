@@ -24,12 +24,12 @@ const JurnalUmumPage = async ({
     },
   });
 
-  const footer : number[] = data.map(nominal => nominal.nominal)
-  
+  const footer: number[] = data.map((nominal : any) => nominal.nominal);
+
   return (
     <Wrapper className="mx-2">
       <h1 className="text-3xl font-bold my-5">Jurnal Umum</h1>
-      <DataTable data={data} columns={columns} footer={footer}/>
+      <DataTable data={data} columns={columns} footer={footer} />
     </Wrapper>
   );
 };
