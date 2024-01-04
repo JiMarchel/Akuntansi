@@ -7,14 +7,15 @@ import { useParams, usePathname } from "next/navigation";
 import { useState } from "react";
 import { BiSolidHome } from "react-icons/bi";
 import { BsJournals } from "react-icons/bs";
+import { GrTransaction } from "react-icons/gr";
 import { Button } from "./ui/button";
 import { Card, CardContent } from "./ui/card";
 import { Separator } from "./ui/separator";
-import { GrTransaction } from "react-icons/gr";
-import { FaBalanceScale } from "react-icons/fa";
 
 export const SideNav = () => {
-  const [active, setActive] = useState<boolean>(true);
+  const storedActive = localStorage.getItem("active");
+  const [active, setActive] = useState(storedActive === "true");
+  
   const { theme } = useTheme();
   const pathName = usePathname();
   const params = useParams();
@@ -34,12 +35,13 @@ export const SideNav = () => {
       title: "Jurnal Umum",
       href: `/dashboard/${params.dashboardId}/jurnal-umum`,
     },
-    {
-      icon: FaBalanceScale,
-      title: "Neraca Saldo",
-      href: `/dashboard/${params.dashboardId}/neraca-saldo`,
-    },
   ];
+
+  const toggleActive = () => {
+    const newValue = !active;
+    localStorage.setItem("active", newValue.toString());
+    setActive(newValue);
+  };
 
   if (active) {
     return (
@@ -49,7 +51,7 @@ export const SideNav = () => {
         } flex flex-col h-full fixed top-0  z-50 left-0 pt-5`}
       >
         <Button
-          onClick={() => setActive(false)}
+          onClick={toggleActive}
           variant="ghost"
           className="ml-auto mr-2 max-w-fit"
         >
@@ -75,16 +77,17 @@ export const SideNav = () => {
         </div>
       </div>
     );
+  }else{
+    return (
+      <div
+        className={`${
+          theme === "dark" ? "bg-slate-900" : "bg-slate-100"
+        }h-0 lg:h-full fixed top-0  z-50 left-0 pt-5`}
+      >
+        <Button onClick={toggleActive} variant="ghost">
+          <Menu size={30} />
+        </Button>
+      </div>
+    );
   }
-  return (
-    <div
-      className={`${
-        theme === "dark" ? "bg-slate-900" : "bg-slate-100"
-      } h-full fixed top-0  z-50 left-0 pt-5`}
-    >
-      <Button onClick={() => setActive(true)} className="" variant="ghost">
-        <Menu size={30} />
-      </Button>
-    </div>
-  );
 };

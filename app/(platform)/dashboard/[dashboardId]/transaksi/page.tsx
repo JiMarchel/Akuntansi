@@ -22,7 +22,7 @@ const JurnalUmum = async ({ params }: { params: { dashboardId: string } }) => {
   });
 
   return (
-    <Wrapper className="mt-10 ">
+    <Wrapper className="mt-10 mx-2">
       <Create params={params} />
       <DataTable data={data} columns={columns} />
     </Wrapper>

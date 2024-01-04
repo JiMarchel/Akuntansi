@@ -107,7 +107,7 @@ function kreditSwitch(key: string, formatted: string) {
 export const columns: ColumnDef<TransactionProps>[] = [
   {
     accessorKey: "createdAt",
-    header: "Created At",
+    header: "Tanggal",
     cell: ({ row }) => {
       const date = new Date(row.getValue("createdAt"));
       const formattedDate = date.toLocaleString("id-ID", {
@@ -134,13 +134,13 @@ export const columns: ColumnDef<TransactionProps>[] = [
       const disimpanKe = addSpace(row.original.disimpanKe);
 
       return (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 w-44">
           <div className="font-bold text-xl">
             {keterangan.toUpperCase()[0] + keterangan.slice(1)}
           </div>
           <div>
-            <div>{diterimaDari}</div>
-            <div>{disimpanKe}</div>
+            <div>{diterimaDari}.</div>
+            <div>{disimpanKe}.</div>
           </div>
         </div>
       );

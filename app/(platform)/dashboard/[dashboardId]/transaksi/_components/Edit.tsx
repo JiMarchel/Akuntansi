@@ -1,5 +1,4 @@
-"use client";
-
+"use client"
 import { SelectInputField, TextInputField } from "@/components/FormInputField";
 import { Button } from "@/components/ui/button";
 import {
@@ -7,88 +6,69 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
+import { Transaction } from "@prisma/client";
+import { useForm } from "react-hook-form";
+import { FormDialogSchema } from "./Create";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { TipeTransaksi } from "@/lib/enum";
 import { createDisimpanKe, createDiterimaDari } from "@/lib/utils";
-import { useUser } from "@clerk/nextjs";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Plus } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { z } from "zod";
+import { useRouter } from "next/navigation";
 
-export const FormDialogSchema = z.object({
-  keterangan: z
-    .string()
-    .min(3, { message: "Keterangan harus lebih dari 3 huruf." }),
-  transaksi: z.string().min(1, { message: "Pilih tipe transaksi" }),
-  diterimaDari: z
-    .string()
-    .min(1, { message: "Pilih salah satu dari opsi diatas" }),
-  disimpanKe: z
-    .string()
-    .min(1, { message: "Pilih salah satu dari opsi diatas" }),
-  nominal: z.coerce
-    .number()
-    .positive({ message: "Nominal harus positive" })
-    .min(1)
-    .max(1000000000, {
-      message: "Nominal harus antara 1 dan 1.000.000.000,00",
-    }),
-});
+interface EditProps {
+  open: boolean;
+  onOpenChange: () => void;
+  initialData: Transaction;
+  loading: boolean;
+  setOpen: () => void;
+}
 
-export const Create = ({ params }: { params: { dashboardId: string } }) => {
-  const user = useUser();
-
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
-  const router = useRouter();
-
+export const EditComp = ({
+  open,
+  initialData,
+  loading,
+  onOpenChange,
+  setOpen,
+}: EditProps) => {
+  const router = useRouter()
   const form = useForm<z.infer<typeof FormDialogSchema>>({
     resolver: zodResolver(FormDialogSchema),
     defaultValues: {
-      keterangan: "",
-      disimpanKe: "",
-      diterimaDari: "",
-      transaksi: "",
-      nominal: 1,
+      keterangan: initialData.keterangan,
+      disimpanKe: initialData.disimpanKe,
+      diterimaDari: initialData.diterimaDari,
+      transaksi: initialData.transaksi,
+      nominal: initialData.nominal,
     },
   });
 
-  if (!user) return;
-
-  async function onSubmit(values: z.infer<typeof FormDialogSchema>) {
+  const onSubmit = async (values: z.infer<typeof FormDialogSchema>) => {
     try {
-      setLoading(true);
       const data = {
-        orgId: params.dashboardId,
-        userId: user.user?.id,
+        id: initialData.id,
         keterangan: values.keterangan,
-        disimpanKe: values.disimpanKe,
-        diterimaDari: values.diterimaDari,
         transaksi: values.transaksi,
+        diterimaDari: values.diterimaDari,
+        disimpanKe: values.disimpanKe,
         nominal: values.nominal,
       };
-      
-      await fetch(`/api/dashboard`, {
-        method: "POST",
+      await fetch("/api/dashboard", {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
-
-      setOpen(false);
-      router.refresh();
     } catch (error) {
+      toast.error("Something went wrong.");
       console.log(error);
     } finally {
-      setLoading(false);
-      toast.success("Transaksi Berhasil Ditambahkan.", {
+      setOpen();
+      router.refresh()
+      toast.success("Berhasil merubah transaksi.", {
         description: `${new Date().toLocaleString("id-ID", {
           weekday: "long",
           month: "long",
@@ -98,21 +78,16 @@ export const Create = ({ params }: { params: { dashboardId: string } }) => {
         })}`,
       });
     }
-  }
+  };
 
   const { watch, control, handleSubmit } = form;
   const transaksiWatch = watch("transaksi");
 
   return (
-    <Dialog open={open} onOpenChange={() => setOpen(!open)}>
-      <DialogTrigger asChild>
-        <Button className="flex gap-2 ml-auto mb-5" onClick={() => setOpen(true)}>
-          Buat Transaksi <Plus size={20} />
-        </Button>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange} defaultOpen={open}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Buat Transaksi Baru</DialogTitle>
+          <DialogTitle>Edit Transaksi</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
@@ -122,6 +97,8 @@ export const Create = ({ params }: { params: { dashboardId: string } }) => {
               label="Tipe transaksi"
               placeholder="Jenis transaksi"
               enum1={TipeTransaksi}
+              defaultValue={initialData.transaksi}
+              disabled={loading}
             />
 
             <SelectInputField
@@ -130,7 +107,8 @@ export const Create = ({ params }: { params: { dashboardId: string } }) => {
               label="Diterima dari"
               placeholder="Pilih"
               enum1={createDiterimaDari(transaksiWatch)}
-              disabled={!transaksiWatch}
+              disabled={!transaksiWatch || loading}
+              defaultValue={initialData.diterimaDari}
             />
 
             <SelectInputField
@@ -139,7 +117,8 @@ export const Create = ({ params }: { params: { dashboardId: string } }) => {
               label="Disimpan ke"
               placeholder="Pilih"
               enum1={createDisimpanKe(transaksiWatch)}
-              disabled={!transaksiWatch}
+              disabled={!transaksiWatch || loading}
+              defaultValue={initialData.disimpanKe}
             />
 
             <TextInputField
@@ -147,6 +126,7 @@ export const Create = ({ params }: { params: { dashboardId: string } }) => {
               name="keterangan"
               label="Keterangan"
               placeholder="Keterangan"
+              disabled={loading}
             />
 
             <TextInputField
@@ -155,6 +135,7 @@ export const Create = ({ params }: { params: { dashboardId: string } }) => {
               label="Nominal"
               placeholder="100.000"
               type="number"
+              disabled={loading}
             />
 
             <Button type="submit" disabled={loading}>

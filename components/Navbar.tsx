@@ -20,7 +20,7 @@ export const Navbar = () => {
       <div>
         <SideNav />
       </div>
-      <div className="flex items-center gap-x-4 mr-10 text-white">
+      <div className="flex items-center gap-x-4 lg:mr-10 text-white">
         <ModeToggle />
         <OrganizationSwitcher
           hidePersonal

@@ -23,6 +23,7 @@ interface TextInputFieldProps {
   enum1?: Record<string, string>
   enum2?: Record<string, string>
   disabled?: boolean
+  defaultValue?: string
 }
 
 export const TextInputField: React.FC<TextInputFieldProps> = ({
@@ -31,6 +32,7 @@ export const TextInputField: React.FC<TextInputFieldProps> = ({
   control,
   label,
   type,
+  disabled
 }) => {
   return (
     <FormField
@@ -40,7 +42,7 @@ export const TextInputField: React.FC<TextInputFieldProps> = ({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input type={type} placeholder={placeholder} {...field} />
+            <Input type={type} placeholder={placeholder} disabled={disabled} {...field} />
           </FormControl>
           <FormMessage />
         </FormItem>
@@ -56,7 +58,8 @@ export const SelectInputField = ({
   placeholder,
   enum1,
   enum2,
-  disabled
+  disabled,
+  defaultValue
 }: TextInputFieldProps) => {
   return (
     <FormField
@@ -65,7 +68,7 @@ export const SelectInputField = ({
       render={({ field }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
-          <Select disabled={disabled} onValueChange={field.onChange} defaultValue={undefined}>
+          <Select disabled={disabled} onValueChange={field.onChange} defaultValue={defaultValue || undefined}>
             <FormControl>
               <SelectTrigger>
                 <SelectValue placeholder={placeholder} />

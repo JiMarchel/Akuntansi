@@ -9,7 +9,7 @@ export type TransactionProps = Transaction;
 export const columns: ColumnDef<TransactionProps>[] = [
   {
     accessorKey: "createdAt",
-    header: "Created At",
+    header: "Tanggal",
     cell: ({ row }) => {
       const date = new Date(row.getValue("createdAt"));
       const formattedDate = date.toLocaleString("id-ID", {

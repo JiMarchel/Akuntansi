@@ -1,7 +1,11 @@
-import { Loader } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 const LoadingPage = () => {
-  return <div>Please wait <Loader/></div>;
+  return (
+    <div className="absolute top-1/2 left-1/2 translate-x-1/2 translate-y-1/2">
+      Please wait <Loader2 />
+    </div>
+  );
 };
 
 export default LoadingPage;

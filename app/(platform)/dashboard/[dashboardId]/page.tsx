@@ -7,7 +7,6 @@ import { redirect } from "next/navigation";
 import { BsJournals } from "react-icons/bs";
 import { FaRightLong } from "react-icons/fa6";
 import { GrTransaction } from "react-icons/gr";
-import { FaBalanceScale } from "react-icons/fa";
 
 const DashBoardPage = async ({
   params,
@@ -19,7 +18,7 @@ const DashBoardPage = async ({
     return redirect("/select-org");
   }
 
-   const routes = [
+  const routes = [
     {
       icon: GrTransaction,
       title: "Transaksi",
@@ -30,17 +29,12 @@ const DashBoardPage = async ({
       title: "Jurnal Umum",
       href: `/dashboard/${params.dashboardId}/jurnal-umum`,
     },
-    {
-      icon: FaBalanceScale,
-      title: "Neraca Saldo",
-      href: `/dashboard/${params.dashboardId}/neraca-saldo`,
-    },
   ];
 
   return (
-    <Wrapper className="grid grid-cols-3">
+    <Wrapper className="grid grid-cols-1 lg:grid-cols-3 ml-10 mt-10">
       {routes.map((route, i) => (
-        <Card key={i} className="max-w-[280px] my-10 ">
+        <Card key={i} className="max-w-[280px] my-2 lg:my-10 ">
           <Link href={route.href}>
             <CardContent className="p-4">
               <div className="flex items-center gap-2 justify-center">

@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { TransactionProps } from "./Column";
 import { toast } from "sonner";
+import { EditComp } from "./Edit";
 
 interface CellActionsProps {
   data: TransactionProps;
@@ -65,13 +66,13 @@ export const CellActions = ({ data }: CellActionsProps) => {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      {/* <DialogComp
+      <EditComp
         open={open}
         onOpenChange={() => setOpen(!open)}
         initialData={data}
         loading={loading}
         setOpen={() => setOpen(false)}
-      /> */}
+      />
     </>
   );
 };

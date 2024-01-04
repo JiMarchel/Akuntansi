@@ -14,7 +14,7 @@ export function ModeToggle() {
           <Sun />
         </Button>
       ) : (
-        <Button variant="outline" size="icon" onClick={() => setTheme("dark")}>
+        <Button className="text-black" variant="outline" size="icon" onClick={() => setTheme("dark")}>
           <Moon />
         </Button>
       )}

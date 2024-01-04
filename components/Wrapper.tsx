@@ -6,5 +6,5 @@ interface WrapperProps {
   className?: string;
 }
 export const Wrapper = ({ children, className }: WrapperProps) => {
-  return <div className={cn("mr-20 ml-64", className)}>{children}</div>;
+  return <div className={cn("mx-1 lg:mx-0 lg:mr-20 lg:ml-64", className)}>{children}</div>;
 };
