@@ -11,12 +11,12 @@ import {
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { TransactionProps } from "./Column";
 import { toast } from "sonner";
 import { EditComp } from "./Edit";
+import { Transaction } from "@prisma/client";
 
 interface CellActionsProps {
-  data: TransactionProps;
+  data: Transaction;
 }
 
 export const CellActions = ({ data }: CellActionsProps) => {

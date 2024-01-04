@@ -4,9 +4,8 @@ import { Transaction } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { CellActions } from "./CellActions";
 
-export type TransactionProps = Transaction;
 
-export const columns: ColumnDef<TransactionProps>[] = [
+export const columns: ColumnDef<Transaction>[] = [
   {
     accessorKey: "createdAt",
     header: "Tanggal",

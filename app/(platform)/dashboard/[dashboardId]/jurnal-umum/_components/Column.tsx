@@ -1,8 +1,8 @@
 "use client";
 
 import { formattedNominal } from "@/lib/utils";
+import { Transaction } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-import { TransactionProps } from "../../transaksi/_components/Column";
 function debitSwitch(key: string, formatted: string) {
   switch (key) {
     case "Pemasukan":
@@ -101,7 +101,7 @@ function kreditSwitch(key: string, formatted: string) {
   }
 }
 
-export const columns: ColumnDef<TransactionProps>[] = [
+export const columns: ColumnDef<Transaction>[] = [
   {
     accessorKey: "createdAt",
     header: "Tanggal",
