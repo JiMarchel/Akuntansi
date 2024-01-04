@@ -8,7 +8,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
-import { Transaction } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { FormDialogSchema } from "./Create";
 import { z } from "zod";
@@ -17,6 +16,7 @@ import { TipeTransaksi } from "@/lib/enum";
 import { createDisimpanKe, createDiterimaDari } from "@/lib/utils";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Transaction } from "../../jurnal-umum/_components/Column";
 
 interface EditProps {
   open: boolean;

@@ -1,8 +1,8 @@
 "use client";
 
-import { Transaction } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { CellActions } from "./CellActions";
+import { Transaction } from "../../jurnal-umum/_components/Column";
 
 
 export const columns: ColumnDef<Transaction>[] = [

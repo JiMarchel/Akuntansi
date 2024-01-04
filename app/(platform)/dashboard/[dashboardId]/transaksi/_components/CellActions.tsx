@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { EditComp } from "./Edit";
-import { Transaction } from "@prisma/client";
+import { Transaction } from "../../jurnal-umum/_components/Column";
 
 interface CellActionsProps {
   data: Transaction;

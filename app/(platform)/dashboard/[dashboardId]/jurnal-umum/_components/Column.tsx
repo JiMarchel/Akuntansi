@@ -1,8 +1,21 @@
 "use client";
 
+import { TipeTransaksi } from "@/lib/enum";
 import { formattedNominal } from "@/lib/utils";
-import { Transaction } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
+
+export type Transaction = {
+  id: string;
+  orgId: string;
+  userId: string;
+  keterangan: string;
+  transaksi: TipeTransaksi[0];
+  nominal: number;
+  diterimaDari: string;
+  disimpanKe: string;
+  createdAt: Date;
+  updateAt: Date;
+}
 function debitSwitch(key: string, formatted: string) {
   switch (key) {
     case "Pemasukan":

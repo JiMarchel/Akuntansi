@@ -1,4 +1,3 @@
-import db from "./db";
 
 export enum TipeTransaksi {
   Pemasukan = "Pemasukan",
