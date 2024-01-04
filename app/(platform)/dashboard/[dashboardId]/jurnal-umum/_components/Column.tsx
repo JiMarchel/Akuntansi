@@ -1,11 +1,8 @@
 "use client";
 
 import { formattedNominal } from "@/lib/utils";
-import { Transaction } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
-
-export type TransactionProps = Transaction;
-
+import { TransactionProps } from "../../transaksi/_components/Column";
 function debitSwitch(key: string, formatted: string) {
   switch (key) {
     case "Pemasukan":
